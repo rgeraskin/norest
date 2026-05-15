@@ -53,7 +53,7 @@ Each file at `layouts/<path>` shadows the corresponding `themes/hugo-bearblog/la
 |---|---|---|
 | `content/blog/_index.md` | `[build] render = "never"` | Suppresses the `/blog/` section index page so it doesn't duplicate the homepage. Child posts and term pages still render. `/blog/index.xml` is also gone; subscribers use `/index.xml` (the home feed). |
 | `content/_index.md` | `menu = "main"`, `weight = 1` | Adds "Home" to the header nav via frontmatter (paired with the config-defined "About" entry). |
-| `archetypes/default.md` | Pre-fills `description = 'PLACEHOLDER'` and `tags = ["PLACEHOLDER"]` | Theme's example archetype omits these; every new post ships with both fields ready to fill in. |
+| `archetypes/default.md` | Pre-fills `description: 'PLACEHOLDER'` and `tags: ["PLACEHOLDER"]` in YAML frontmatter (`---` delimiters) | Theme's example archetype is TOML and omits both fields; every new post ships YAML-flavoured with both fields ready to fill in. |
 
 ### Static assets
 

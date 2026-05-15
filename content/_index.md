@@ -1,8 +1,8 @@
-+++
-title = "Home"
-menu = "main"
-weight = 1
-+++
+---
+title: Home
+menu: main
+weight: 1
+---
 
 # A match made in heaven
 
