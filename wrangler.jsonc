@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "norest",
+  "compatibility_date": "2026-05-15",
+  "assets": {
+    "directory": "./public"
+  },
+  "routes": [
+    {
+      "pattern": "norest.rgeraskin.dev",
+      "custom_domain": true
+    }
+  ]
+}

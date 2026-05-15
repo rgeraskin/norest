@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A personal Hugo blog using the [bearblog](https://github.com/janraasch/hugo-bearblog) theme as a git submodule at `themes/hugo-bearblog/`. Hugo version is pinned via mise (`hugo-extended = "0.161.1"`). Deploys to Cloudflare Pages.
+A personal Hugo blog using the [bearblog](https://github.com/janraasch/hugo-bearblog) theme as a git submodule at `themes/hugo-bearblog/`. Hugo version is pinned via mise (`hugo-extended = "0.161.1"`). Deploys to Cloudflare Workers (Static Assets) via the `wrangler.jsonc` config in repo root; Cloudflare Workers Builds runs `hugo --gc --minify` then `npx wrangler deploy` on every push to `master`.
 
 The `TODO` file at repo root tracks pre-launch tasks.
 
