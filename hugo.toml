@@ -19,7 +19,12 @@ disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 [permalinks]
 blog = "/:slug/"
-tags = "/blog/:slug"
+tags = "/tags/:slug/"
+
+[[menu.main]]
+name = "About"
+url = "https://rgeraskin.dev"
+weight = 10
 
 [params]
 # The "description" of your website. This is used in the meta data of your generated html.
@@ -47,7 +52,7 @@ hideMadeWithLine = true
 # By default, if you want to read more than one blog post you have to always go
 # back to the /blog page.
 # By enabling this feature each blog post will have at the end a navigator
-# enablePostNavigator = true
+enablePostNavigator = true
 
 # By default, this theme displays dates with a format like "02 Jan, 2006", but
 # you can customize it by setting the `dateFormat` param in your site's config
