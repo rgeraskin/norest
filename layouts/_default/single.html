@@ -20,6 +20,12 @@
   {{ .Content }}
 </content>
 
+{{ if eq .Type "blog" }}
+{{ if or .Params.discuss_tg .Params.discuss_x }}<p>Обсудить в {{ with .Params.discuss_tg }} <a href="{{ . }}">{{ partial
+    "icon-telegram.html" . }} Telegram</a>{{ end }}{{ if and .Params.discuss_tg .Params.discuss_x }} /{{ end }}{{ with
+  .Params.discuss_x }} <a href="{{ . }}">{{ partial "icon-x.html" . }} Twitter</a>{{ end }}</p>{{ end }}
+{{ end }}
+
 {{ if eq .Type "blog" }}{{ if (.Param "enablePostNavigator")}}
 {{- partial "post_navigator.html" . -}}
 {{ end }}{{ end }}

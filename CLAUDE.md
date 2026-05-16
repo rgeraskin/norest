@@ -43,9 +43,10 @@ Each file at `layouts/<path>` shadows the corresponding `themes/hugo-bearblog/la
 | Override | What | Why |
 |---|---|---|
 | `layouts/index.html` | Renders `_index.md` content, then tag cloud, then post list (`where .Site.RegularPages "Section" "blog"`) | Theme version is `{{ define "main" }}{{ .Content }}{{ end }}` — no posts on homepage. We want the homepage to be the post archive. |
-| `layouts/_default/single.html` | Renders post title → date → **tags** → content, then post navigator | Theme renders tags after the post navigator at the bottom of the page; we moved them up next to the date. `{{ with .GetTerms "tags" }}` guard avoids empty `<p>` on non-blog single pages. |
+| `layouts/_default/single.html` | Renders post title → date → **tags** → content → optional **discuss links** → post navigator | Theme renders tags after the post navigator at the bottom of the page; we moved them up next to the date. `{{ with .GetTerms "tags" }}` guard avoids empty `<p>` on non-blog single pages. Discuss block reads `.Params.discuss_tg` / `.Params.discuss_x` from frontmatter and renders only if at least one is set. |
 | `layouts/partials/footer.html` | Emits `{{ .Site.Copyright }}` plus the conditional made-with line | Theme's footer renders only the made-with line. Bearblog never surfaces `.Site.Copyright` anywhere visible — we add it. |
 | `layouts/partials/post_navigator.html` | Renders `<< Previous Post \| Home \| Next Post >>` | Theme version is `<< Previous Post \| Next Post >>` only. Home injected in the middle for one-click escape back to the post archive. |
+| `layouts/partials/icon-telegram.html`, `layouts/partials/icon-x.html` | Inline SVG brand icons (24×24 viewBox, `currentColor` fill, `1em` size) for Telegram and X | Used by `single.html`'s discuss block. Inline SVG, no external requests, inherits link color. Brand marks from [simple-icons](https://simpleicons.org) (MIT). |
 
 ### Content & structure customizations
 
@@ -53,7 +54,7 @@ Each file at `layouts/<path>` shadows the corresponding `themes/hugo-bearblog/la
 |---|---|---|
 | `content/blog/_index.md` | `[build] render = "never"` | Suppresses the `/blog/` section index page so it doesn't duplicate the homepage. Child posts and term pages still render. `/blog/index.xml` is also gone; subscribers use `/index.xml` (the home feed). |
 | `content/_index.md` | `menu = "main"`, `weight = 1` | Adds "Home" to the header nav via frontmatter (paired with the config-defined "About" entry). |
-| `archetypes/default.md` | Pre-fills `description: 'PLACEHOLDER'` and `tags: ["PLACEHOLDER"]` in YAML frontmatter (`---` delimiters) | Theme's example archetype is TOML and omits both fields; every new post ships YAML-flavoured with both fields ready to fill in. |
+| `archetypes/default.md` | Pre-fills `description: 'PLACEHOLDER'`, `tags: ["PLACEHOLDER"]`, and empty `discuss_tg: ''` / `discuss_x: ''` in YAML frontmatter (`---` delimiters) | Theme's example archetype is TOML and omits all four. Every new post ships YAML-flavoured with these fields ready to fill in. Empty string for the discuss URLs is treated the same as missing — no link renders until you set them. |
 
 ### Static assets
 
