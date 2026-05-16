@@ -5,6 +5,8 @@ description: Sample article showcasing basic Markdown syntax and formatting for 
 tags:
   - markdown
   - syntax
+discuss_tg: 'https://t.me/norest_blog/3'
+discuss_x: ''
 draft: false
 ---
 
