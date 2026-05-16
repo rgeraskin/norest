@@ -5,7 +5,7 @@ description: Sample article showcasing basic Markdown syntax and formatting for 
 tags:
   - markdown
   - syntax
-draft: true
+draft: false
 ---
 
 For a quick cheatsheet, check out https://simplemde.com/markdown-guide.
