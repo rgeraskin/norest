@@ -1,0 +1,5 @@
+{{- $title := replaceRE "(for the Geeked ʕ[^ ]+)" "<span class=\"title-tagline\">$1</span>" .Site.Title | safeHTML -}}
+<a href="{{ "" | relURL }}" class="title">
+  <h2>{{ $title }}</h2>
+</a>
+<nav>{{- partial "nav.html" . -}}</nav>
