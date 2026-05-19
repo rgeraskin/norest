@@ -29,7 +29,7 @@ The theme submodule is never edited in place — all customizations are project-
 | `title`, `author`, `copyright`, `description` | Site identity strings | User-specific. |
 | `languageCode = "ru-RU"` | Changed from theme example's `"en-US"` | Russian-language blog. |
 | `disableKinds = ["taxonomy"]` + `ignoreErrors` | Kept from theme example | Disables only the `/tags/` index page (Hugo 0.73+ semantics); individual term pages still render. We have no UI linking to `/tags/`. |
-| `[permalinks] blog = "/:slug/"` | Kept from theme example | Posts at flat root URLs. |
+| `[permalinks] blog = "/:contentbasename/"` | Changed from theme's `/:slug/` | Flat root URLs derived from the post's filename (without extension). Default `:slug` falls back to a slugified `title`, which for Russian titles produces Cyrillic URLs (encoded as `%D0%9F...` when copied) — `:contentbasename` keeps URLs ASCII without needing `slug:` in every post's frontmatter. Note: `:filename` is the older spelling for the same token, deprecated in Hugo 0.144 and removed since. |
 | `[permalinks] tags = "/tags/:slug/"` | Changed from theme's `/blog/:slug` | Tag URLs in their own namespace; no visual collision with post URLs. |
 | `[[menu.main]]` About → `https://rgeraskin.dev` | Added | External link in header nav at weight 10 (after Home weight 1). |
 | `hideMadeWithLine = true` | Enabled | Suppresses the "Made with Hugo Bear" footer link from the theme. |

@@ -18,7 +18,7 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 [permalinks]
-blog = "/:slug/"
+blog = "/:contentbasename/"
 tags = "/tags/:slug/"
 
 [[menu.main]]
