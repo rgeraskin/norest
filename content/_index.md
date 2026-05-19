@@ -4,7 +4,15 @@ menu: main
 weight: 1
 ---
 
-# A match made in heaven
+# Упоротость как стиль жизни
 
-There is a website obesity crisis. Bloated websites full of scripts, ads, and trackers are slowing your readers down every time they try to read your well-crafted content.
+> {{ "Здесь чья-то цитата, но еще не нашел идеальную" | sarcasmify }}
 
+Здесь будет все, что лень бить [на твиты](https://x.com/kuberroman). Щитпостить по-крупному 🤟
+
+Быстрая смена увлечений, отягощённая перфекционизмом, прокрастинацией и масштабным подходом к мелочам:
+- Не освоить, а закопаться
+- Не результат, а процесс
+- Не отдых, а вторая работа
+
+Профессиональный контент — [на другом канале](https://blog.rgeraskin.dev). Но мало 😁
