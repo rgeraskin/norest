@@ -7,14 +7,12 @@
       {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
     </time>
   </i>
-</p>
-{{ with .GetTerms "tags" }}
-<p>
+  {{ with .GetTerms "tags" }}
   {{ range . }}
   <a href="{{ .Permalink }}">#{{ .LinkTitle }}</a>
   {{ end }}
+  {{ end }}
 </p>
-{{ end }}
 {{ end }}{{ end }}
 <content>
   {{ .Content }}
