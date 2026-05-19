@@ -7,7 +7,7 @@ tags:
   - syntax
 discuss_tg: 'https://t.me/norest_blog/3'
 discuss_x: ''
-draft: false
+draft: true
 ---
 
 For a quick cheatsheet, check out https://simplemde.com/markdown-guide.
