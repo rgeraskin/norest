@@ -48,6 +48,7 @@ title = "No Rest for the Geeked ʕ•ᴥ•ʔ"
 # This theme will, by default, inject a made-with-line at the bottom of the page.
 # You can turn it off, but we would really appreciate if you don’t :-).
 hideMadeWithLine = true
+hideCopyrightLine = true
 
 # By default, if you want to read more than one blog post you have to always go
 # back to the /blog page.
