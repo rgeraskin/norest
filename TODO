@@ -1,6 +1,107 @@
-4. Change the OpenGraph share image. images = ["images/share.png"]. A 1200×630 PNG with your blog name on it is the bare minimum. Same path: static/images/share.png.
+# OpenGraph share image: per-post auto-generation
 
-Pre-deploy hygiene
+Currently a single `static/images/share.png` (1200×630) is used as the OG card for every page via `images = ["images/share.png"]` in `hugo.toml`. Adequate for a personal blog with infrequent sharing. When the blog grows past ~10 posts and you want each post to be visually distinct in social feeds, consider auto-generation.
+
+## Hugo-native auto-gen (no external services)
+
+Generates a unique 1200×630 PNG per page at build time, using Hugo's built-in `images.Text` filter to overlay the page title on a base image.
+
+1. Prepare assets in `assets/og/`:
+   - `base.png` — 1200×630 backdrop with brand colors/logo, leave space for title text
+   - `Inter-Bold.ttf` (or other font with Cyrillic Unicode block) — for title rendering. Inter, PT Sans, IBM Plex Sans, Roboto all work.
+
+2. Create `layouts/partials/og-card.html`:
+
+   ```go-html-template
+   {{- $base := resources.Get "og/base.png" -}}
+   {{- $font := resources.Get "og/Inter-Bold.ttf" -}}
+   {{- $title := cond .IsHome .Site.Title .Title -}}
+
+   {{- /* Word-wrap title at ~30 chars on word boundaries */ -}}
+   {{- $words := split $title " " -}}
+   {{- $line := "" -}}
+   {{- $lines := slice -}}
+   {{- range $words -}}
+     {{- $candidate := cond (eq $line "") . (printf "%s %s" $line .) -}}
+     {{- if gt (len $candidate) 30 -}}
+       {{- $lines = $lines | append $line -}}
+       {{- $line = . -}}
+     {{- else -}}
+       {{- $line = $candidate -}}
+     {{- end -}}
+   {{- end -}}
+   {{- $lines = $lines | append $line -}}
+   {{- $wrapped := delimit $lines "\n" -}}
+
+   {{- $filter := images.Text $wrapped (dict
+       "color" "#FFFFFF"
+       "size" 64
+       "lineSpacing" 12
+       "x" 80
+       "y" 200
+       "font" $font
+   ) -}}
+   {{- ($base.Filter $filter).Permalink -}}
+   ```
+
+3. Create `layouts/partials/seo_tags.html` to override theme's version:
+
+   ```go-html-template
+   {{- $ogImage := partial "og-card.html" . -}}
+   <meta name="title" content="{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}" />
+   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
+   <meta name="keywords" content="{{ if .IsPage}}{{ range $index, $tag := .Params.tags }}{{ $tag }},{{ end }}{{ else }}{{ range $plural, $terms := .Site.Taxonomies }}{{ range $term, $val := $terms }}{{ printf "%s," $term }}{{ end }}{{ end }}{{ end }}" />
+
+   {{ template "_internal/opengraph.html" . }}
+   <meta property="og:image" content="{{ $ogImage }}" />
+   <meta property="og:image:width" content="1200" />
+   <meta property="og:image:height" content="630" />
+
+   {{ template "_internal/twitter_cards.html" . }}
+   <meta name="twitter:image" content="{{ $ogImage }}" />
+
+   {{ template "_internal/schema.html" . }}
+   ```
+
+4. Remove `images = [...]` from `[params]` in `hugo.toml`. Otherwise Hugo's internal opengraph template emits a competing `og:image` tag.
+
+5. Verify after `hugo --gc --minify`:
+
+   ```bash
+   grep -E 'og:image|twitter:image' public/<some-post>/index.html
+   ```
+
+   Expect URLs like `/og/base_hu<hash>.png` — unique hash per title.
+
+### Gotchas
+
+- **Cyrillic glyphs rendering as empty boxes** → font without Cyrillic block. Verify the TTF includes Russian characters before committing.
+- **Long titles overflow the card** → adjust the 30-char wrap threshold or the `x`/`y` text origin.
+- **Build time grows with N posts** — Hugo caches by content hash, so repeat builds stay fast. Cold builds scale roughly linearly.
+- **Social platform caches stale previews** — use Twitter Card Validator / Facebook Sharing Debugger to force-refresh after image changes.
+- **Hash filename changes on title edit** — old card lingers in `public/og/` until clean build. Cloudflare Workers Builds does a clean build every push, so prod is unaffected.
+
+## Alternatives if Hugo-native feels heavy
+
+| Tool | What | When |
+|---|---|---|
+| `og-image.vercel.app` | URL-parametric card generator, external service | Quick start, no self-host. Adds dependency on third-party service. |
+| Self-hosted on Cloudflare Worker | Card generator running on the same infra (we already deploy via CF Workers Builds) | Natural fit for our stack. Separate worker to maintain. |
+| Pre-build script | Node.js + sharp or Python + Pillow, generates per-post images, writes to `static/images/og/`, frontmatter references them | One step in CI before `hugo build`. No Hugo template coupling, easier to debug. |
+
+## Decision threshold
+
+Single branded `share.png` covers ~80% of the value for a personal blog with <10 posts. Auto-gen makes sense when:
+
+1. ≥10 posts and social sharing is regular
+2. Each post should be visually distinct in feeds
+3. You're already comfortable with Hugo resource pipelines
+
+Until then — keep the single branded card and revisit.
+
+---
+
+# Pre-deploy hygiene
 
 Lower priority — can happen after deploy
 
