@@ -6,7 +6,7 @@ baseURL = "https://norest.rgeraskin.dev/"
 theme = 'hugo-bearblog'
 
 # Basic metadata configuration for your blog.
-title = "No Rest for the Geeked ʕ•ᴥ•ʔ"
+title = "No Rest for the Geeked ʕ´༎ຶᴥ༎ຶ`ʔ"
 author = "Roman Geraskin"
 copyright = "Copyright © 2026, Roman Geraskin."
 languageCode = "ru-RU"
