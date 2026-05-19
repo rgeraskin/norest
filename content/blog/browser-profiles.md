@@ -5,6 +5,8 @@ description: Настройка разных окружений для дома/
 tags:
   - productivity
   - tools
+discuss_tg: 'https://t.me/norest_blog/4'
+discuss_x: ''
 draft: false
 ---
 
